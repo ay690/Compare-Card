@@ -13,7 +13,7 @@ const Header = () => {
             className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <div className="p-9 rounded-lg">
+            <div className="p-2 rounded-lg">
               <CreditCard
                 className="h-10 w-10 text-white rounded-sm p-1"
                 style={{
@@ -55,7 +55,7 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             <Button
               variant="outline"
-              className="hidden sm:inline-flex cursor-pointer text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 hover:bg-secondary/90"
+              className="hidden sm:inline-flex cursor-pointer text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 hover:bg-secondary/90 hover:scale-105"
               style={{
                 background: "linear-gradient(135deg, #F39C12 0%, #F1C40F 100%)",
               }}
@@ -63,7 +63,7 @@ const Header = () => {
               Sign In
             </Button>
             <Button
-              className="text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 cursor-pointer hover:bg-secondary/90"
+              className="text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 cursor-pointer hover:bg-secondary/90 hover:scale-105"
               style={{
                 background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
               }}
