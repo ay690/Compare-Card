@@ -1,12 +1,14 @@
-import { Button } from "@/components/ui/button"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Index from "./pages/Index";
 
 
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-      <h1 className="text-3xl">Hey there!!!</h1>
-    </div>
+   <BrowserRouter>
+   <Routes>
+    <Route path="/" element={<Index />} />
+   </Routes>
+   </BrowserRouter>
   )
 }
 
