@@ -123,3 +123,7 @@
 .text-banking-text {
   color: #2c3e50;
 }
+
+.trust-gradient {
+  background: linear-gradient(135deg, #1b4f72 0%, #2e86ab 100%);
+}
