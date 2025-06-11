@@ -3,6 +3,7 @@ import { Star, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import CTASection from "@/components/CTA";
 import { features } from "@/data/features";
 import { topCards } from "@/data/topcard";
 import FeatureCard from "@/components/FeatureCard";
@@ -88,8 +89,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-
       
+      <CTASection />
     </div>
   );
 };
