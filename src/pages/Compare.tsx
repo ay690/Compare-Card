@@ -5,6 +5,7 @@ import { setFilteredCards } from '@/store/slices/creditCardSlice';
 import Header from '@/components/Header';
 import FilterSidebar from '@/components/FilterSidebar';
 import CreditCardGrid from '@/components/CreditCardGrid';
+import AIChatSidebar from '@/components/AiChatSidebar';
 
 const Compare = () => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const Compare = () => {
             <CreditCardGrid cards={filteredCards} />
           </div>
         </div>
+        <AIChatSidebar />
       </div>
     </div>
   )
