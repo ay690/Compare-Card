@@ -39,13 +39,13 @@ const Header = () => {
               Compare Cards
             </a>
             <a
-              href="#"
+              href="/reviews"
               className="text-banking-text hover:text-[#10171f] transition-colors"
             >
               Reviews
             </a>
             <a
-              href="#"
+              href="/learn"
               className="text-banking-text hover:text-[#10171f] transition-colors"
             >
               Learn

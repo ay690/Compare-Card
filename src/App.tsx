@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Reviews from "./pages/Review";
 import Compare from "./pages/Compare";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/compare" element={<Compare />} />
+          <Route path="/reviews" element={<Reviews />}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
