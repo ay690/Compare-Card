@@ -26,7 +26,7 @@ const AIChatSidebar = () => {
     dispatch(addMessage(userMessage));
     setInput('');
     
-    // Simulate AI response
+    // Simulating AI response
     dispatch(setIsTyping(true));
     setTimeout(() => {
       const aiResponse: ChatMessage = {
@@ -45,7 +45,7 @@ const AIChatSidebar = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(true)}
-          className="bg-primary hover:bg-primary/90 text-white rounded-full w-14 h-14 shadow-lg"
+          className="bg-primary hover:bg-primary/90 text-white rounded-full w-14 h-14 shadow-lg cursor-pointer"
         >
           <MessageCircle className="h-6 w-6" />
         </Button>
@@ -61,12 +61,13 @@ const AIChatSidebar = () => {
           variant="secondary"
           size="sm"
           onClick={() => setIsOpen(false)}
+          className="cursor-pointer transition-colors hover:scale-105 duration-300"
         >
-          <X className="h-4 w-4" />
+          <X className="h-4 w-4 hover:scale-105" />
         </Button>
       </div>
 
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 p-4 min-h-0">
         <div className="space-y-4">
           {messages.map((message) => (
             <div
@@ -102,7 +103,7 @@ const AIChatSidebar = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about credit cards..."
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            className="flex-1"
+            className="flex-1 min-w-0 whitespace-nowrap overflow-x-auto"
           />
           <Button onClick={handleSendMessage} size="sm"  style={{
                 background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
