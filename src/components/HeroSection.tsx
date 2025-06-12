@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Search, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
 }
 
 const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
+  const navigate = useNavigate();
+
   return (
     <section className="trust-gradient py-24 px-6">
       <div className="max-w-6xl mx-auto text-center">
@@ -39,6 +42,7 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             Compare Cards Now
           </Button>
           <Button
+            onClick={() => navigate("/learn")}
             variant="outline"
             className="border-white/50 text-banking-text hover:bg-gray font-semibold text-lg px-8 py-4 rounded-xl cursor-pointer"
           >
