@@ -1,4 +1,3 @@
-
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface FilterState {
