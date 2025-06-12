@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { type RootState } from '@/store/store';
 import { setFilteredCards } from '@/store/slices/creditCardSlice';
 import Header from '@/components/Header';
+import ComparisonModal from '@/components/ComparisonModal';
 import FilterSidebar from '@/components/FilterSidebar';
 import CreditCardGrid from '@/components/CreditCardGrid';
 import AIChatSidebar from '@/components/AiChatSidebar';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const Compare = () => {
   const dispatch = useDispatch();
-  const { cards, filteredCards } = useSelector((state: RootState) => state.creditCards);
+  const { cards, filteredCards, selectedForComparison } = useSelector((state: RootState) => state.creditCards);
   const filters = useSelector((state: RootState) => state.filters);
+  const [showComparison, setShowComparison] = useState(false);
 
   // console.log(cards);
   // console.log(filters);
@@ -40,13 +44,17 @@ const Compare = () => {
 
     // Apply sorting
     filtered = filtered.sort((a, b) => {
-      const aValue = a[filters.sortBy];
-      const bValue = b[filters.sortBy];
+      const aValue = (filters.sortBy === 'name') ? a[filters.sortBy].toLowerCase() : a[filters.sortBy];
+      const bValue = (filters.sortBy === 'name') ? b[filters.sortBy].toLowerCase() : b[filters.sortBy];
       
       if (filters.sortOrder === 'asc') {
-        return aValue > bValue ? 1 : -1;
+        if (aValue > bValue) return 1;
+        if (aValue < bValue) return -1;
+        return 0;
       } else {
-        return aValue < bValue ? 1 : -1;
+        if (aValue < bValue) return 1;
+        if (aValue > bValue) return -1;
+        return 0;
       }
     });
 
@@ -72,13 +80,31 @@ const Compare = () => {
                   {filteredCards.length} cards match your criteria
                 </p>
               </div>
-            </div>
 
+              {selectedForComparison.length > 0 && (
+                <div className="flex items-center gap-3">
+                  <Badge variant="secondary" className="bg-primary text-white">
+                    {selectedForComparison.length} selected
+                  </Badge>
+                  <Button 
+                    onClick={() => setShowComparison(true)}
+                    className="banking-button-primary"
+                  >
+                    Compare Selected Cards
+                  </Button>
+                </div>
+              )}
+
+            </div>
             <CreditCardGrid cards={filteredCards} />
           </div>
         </div>
         <AIChatSidebar />
       </div>
+      <ComparisonModal 
+        isOpen={showComparison} 
+        onClose={() => setShowComparison(false)} 
+      />
     </div>
   )
 }

@@ -25,6 +25,7 @@ export interface CreditCard {
 
 interface CreditCardState {
   cards: CreditCard[];
+  selectedForComparison: string[];
   filteredCards: CreditCard[];
   loading: boolean;
   selectedCard: CreditCard | null;
@@ -125,6 +126,7 @@ const mockCards: CreditCard[] = [
 
 const initialState: CreditCardState = {
   cards: mockCards,
+  selectedForComparison: [],
   filteredCards: mockCards,
   loading: false,
   selectedCard: null,
@@ -147,8 +149,19 @@ const creditCardSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    addToComparison: (state, action: PayloadAction<string>) => {
+      if (!state.selectedForComparison.includes(action.payload) && state.selectedForComparison.length < 3) {
+        state.selectedForComparison.push(action.payload);
+      }
+    },
+    removeFromComparison: (state, action: PayloadAction<string>) => {
+      state.selectedForComparison = state.selectedForComparison.filter(id => id !== action.payload);
+    },
+    clearComparison: (state) => {
+      state.selectedForComparison = [];
+    },
   },
 });
 
-export const { setCards, setFilteredCards, setSelectedCard, setLoading } = creditCardSlice.actions;
+export const { setCards, setFilteredCards, setSelectedCard, setLoading, addToComparison, removeFromComparison, clearComparison } = creditCardSlice.actions;
 export default creditCardSlice.reducer;

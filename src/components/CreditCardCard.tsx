@@ -1,13 +1,47 @@
-import { type CreditCard } from "@/store/slices/creditCardSlice";
+import {
+  type CreditCard,
+  addToComparison,
+  removeFromComparison,
+} from "@/store/slices/creditCardSlice";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, IndianRupee } from "lucide-react";
+import { type RootState } from "@/store/store";
+import { toast } from "sonner";
+import { useSelector, useDispatch } from "react-redux";
 
 interface CreditCardCardProps {
   card: CreditCard;
 }
 
 const CreditCardCard = ({ card }: CreditCardCardProps) => {
+  const dispatch = useDispatch();
+  const { selectedForComparison } = useSelector(
+    (state: RootState) => state.creditCards
+  );
+
+  const isSelected = selectedForComparison.includes(card.id);
+
+  const handleCompareClick = () => {
+    if (isSelected) {
+      dispatch(removeFromComparison(card.id));
+      toast("Card removed from comparison", {
+        description: `${card.name} has been removed from comparison.`,
+      });
+    } else {
+      if (selectedForComparison.length >= 3) {
+        toast.error("Comparison limit reached", {
+          description: "You can compare up to 3 cards at a time.",
+        });
+        return;
+      }
+      dispatch(addToComparison(card.id));
+      toast("Card added to comparison", {
+        description: `${card.name} has been added to comparison.`,
+      });
+    }
+  };
+
   return (
     <div className="banking-card ">
       <div className="flex items-start justify-between mb-4">
@@ -68,13 +102,14 @@ const CreditCardCard = ({ card }: CreditCardCardProps) => {
 
       <div className="flex gap-2">
         <Button
-          variant="outline"
+          variant={isSelected ? "default" : "outline"}
           className="flex-1 text-sm cursor-pointer transition-colors duration-200 text-white hover:scale-105"
           style={{
             background: "linear-gradient(135deg, #F39C12 0%, #F1C40F 100%)",
           }}
+          onClick={handleCompareClick}
         >
-          Compare
+          {isSelected ? "Remove" : "Compare"}
         </Button>
         <Button
           className="flex-1 text-sm cursor-pointer transition-colors duration-200 text-white hover:scale-105"
