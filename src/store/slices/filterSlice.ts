@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface FilterState {
   bank: string;
@@ -7,23 +7,25 @@ interface FilterState {
   maxAnnualFee: number;
   loungeAccess: boolean | null;
   fuelSurcharge: boolean | null;
-  sortBy: 'rating' | 'annualFee' | 'cashbackRate' | 'name';
-  sortOrder: 'asc' | 'desc';
+  sortBy: "rating" | "annualFee" | "cashbackRate" | "name";
+  sortOrder: "asc" | "desc";
+  learningCategory: string;
 }
 
 const initialState: FilterState = {
-  bank: '',
-  category: '',
+  bank: "",
+  category: "",
   minSalary: 0,
   maxAnnualFee: 10000,
   loungeAccess: null,
   fuelSurcharge: null,
-  sortBy: 'rating',
-  sortOrder: 'desc',
+  sortBy: "rating",
+  sortOrder: "desc",
+  learningCategory: "All",
 };
 
 const filterSlice = createSlice({
-  name: 'filters',
+  name: "filters",
   initialState,
   reducers: {
     setBank: (state, action: PayloadAction<string>) => {
@@ -44,11 +46,17 @@ const filterSlice = createSlice({
     setFuelSurcharge: (state, action: PayloadAction<boolean | null>) => {
       state.fuelSurcharge = action.payload;
     },
-    setSortBy: (state, action: PayloadAction<'rating' | 'annualFee' | 'cashbackRate' | 'name'>) => {
+    setSortBy: (
+      state,
+      action: PayloadAction<"rating" | "annualFee" | "cashbackRate" | "name">
+    ) => {
       state.sortBy = action.payload;
     },
-    setSortOrder: (state, action: PayloadAction<'asc' | 'desc'>) => {
+    setSortOrder: (state, action: PayloadAction<"asc" | "desc">) => {
       state.sortOrder = action.payload;
+    },
+    setLearningCategory: (state, action: PayloadAction<string>) => {
+      state.learningCategory = action.payload;
     },
     resetFilters: (state) => {
       Object.assign(state, initialState);
@@ -65,6 +73,7 @@ export const {
   setFuelSurcharge,
   setSortBy,
   setSortOrder,
+  setLearningCategory,
   resetFilters,
 } = filterSlice.actions;
 
