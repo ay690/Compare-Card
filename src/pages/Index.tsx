@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import TopCardsSection from "@/components/TopCardSection";
 import CTASection from "@/components/CTA";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Index = () => {
       <FeaturesSection />
       <TopCardsSection />
       <CTASection />
+      <Footer />
     </div>
   );
 };
