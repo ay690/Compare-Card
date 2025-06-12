@@ -4,10 +4,12 @@ import NotFound from "./pages/NotFound";
 import Compare from "./pages/Compare";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (
     <Provider store={store}>
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
