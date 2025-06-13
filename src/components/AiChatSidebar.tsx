@@ -96,6 +96,7 @@ const AIChatSidebar = () => {
           <Button
             variant="ghost"
             size="sm"
+            className="cursor-pointer"
             onClick={() => setShowApiSettings(!showApiSettings)}
           >
             <Settings className="h-4 w-4" />
@@ -103,6 +104,7 @@ const AIChatSidebar = () => {
           <Button
             variant="secondary"
             size="sm"
+            className="cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
             <X className="h-4 w-4 cursor-pointer" />
@@ -185,6 +187,7 @@ const AIChatSidebar = () => {
             onClick={handleSendMessage}
             size="sm"
             disabled={isTyping}
+            className="cursor-pointer"
             style={{
               background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
             }}
