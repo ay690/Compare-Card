@@ -7,6 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type RootState } from "@/store/store";
 import { setLearningCategory } from "@/store/slices/filterSlice";
 import { articles } from "@/data/articles";
+import { motion } from "framer-motion";
+
+const containerVariant = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+const fadeInUp = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+};
 
 const Learn = () => {
   const dispatch = useDispatch();
@@ -35,11 +46,16 @@ const Learn = () => {
   };
 
   return (
-    <div className="min-h-screen bg-banking-grey">
+    <motion.div
+      className="min-h-screen bg-banking-grey"
+      variants={containerVariant}
+      initial="hidden"
+      animate="visible"
+    >
       <Header />
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+      <motion.div className="max-w-6xl mx-auto px-4 py-12" variants={fadeInUp}>
+        <motion.div className="text-center mb-12" variants={fadeInUp}>
           <h1 className="text-4xl font-bold text-banking-text mb-4">
             Learn About Credit Cards
           </h1>
@@ -47,12 +63,15 @@ const Learn = () => {
             Master the world of credit cards with our comprehensive guides and
             educational resources
           </p>
-        </div>
+        </motion.div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
+        <motion.div
+          className="flex flex-wrap justify-center gap-2 mb-12"
+          variants={fadeInUp}
+        >
           {categories.map((category) => (
-            <button
+            <motion.button
               key={category}
               onClick={() => handleCategoryChange(category)}
               className={`px-4 py-2 rounded-lg cursor-pointer font-medium transition-colors ${
@@ -60,68 +79,73 @@ const Learn = () => {
                   ? "bg-primary text-white"
                   : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
               }`}
+              variants={fadeInUp}
             >
               {category}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Articles Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+          variants={fadeInUp}
+        >
           {filteredArticles.map((article) => {
             const IconComponent = article.icon;
             return (
-              <Card
-                key={article.id}
-                className="banking-card hover:shadow-lg transition-shadow cursor-pointer"
-              >
-                <div className="aspect-video bg-gray-100 rounded-t-lg overflow-hidden">
-                  <img
-                    src={`https://images.unsplash.com/${article.image}?auto=format&fit=crop&w=400&h=225`}
-                    alt={article.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs bg-blue-400/20 text-text-banking-blue px-2 py-1 rounded-full font-medium">
-                      {article.category}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {article.readTime}
-                    </span>
+              <motion.div key={article.id} variants={fadeInUp}>
+                <Card className="banking-card hover:shadow-lg transition-shadow cursor-pointer">
+                  <div className="aspect-video bg-gray-100 rounded-t-lg overflow-hidden">
+                    <img
+                      src={`https://images.unsplash.com/${article.image}?auto=format&fit=crop&w=400&h=225`}
+                      alt={article.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <CardTitle className="text-lg leading-tight">
-                    {article.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm">{article.description}</p>
-                  <div className="flex items-center mt-4">
-                    <IconComponent className="h-4 w-4 text-primary mr-2" />
-                    <span className="text-sm text-[#2C3E50] font-medium">
-                      Read Article
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs bg-blue-400/20 text-text-banking-blue px-2 py-1 rounded-full font-medium">
+                        {article.category}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {article.readTime}
+                      </span>
+                    </div>
+                    <CardTitle className="text-lg leading-tight">
+                      {article.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 text-sm">
+                      {article.description}
+                    </p>
+                    <div className="flex items-center mt-4">
+                      <IconComponent className="h-4 w-4 text-primary mr-2" />
+                      <span className="text-sm text-[#2C3E50] font-medium">
+                        Read Article
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Show message when no articles found */}
         {filteredArticles.length === 0 && (
-          <div className="text-center py-12">
+          <motion.div className="text-center py-12" variants={fadeInUp}>
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-xl font-semibold text-banking-text mb-2">
               No articles found
             </h3>
             <p className="text-gray-600">Try selecting a different category</p>
-          </div>
+          </motion.div>
         )}
 
         {/* Newsletter Signup */}
-        <div className="text-center">
+        <motion.div className="text-center" variants={fadeInUp}>
           <div className="banking-card max-w-2xl mx-auto">
             <div className="flex justify-center mb-4">
               <div
@@ -142,12 +166,14 @@ const Learn = () => {
               delivered to your inbox
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
+              <motion.input
                 type="email"
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                variants={fadeInUp}
               />
-              <button
+              <motion.button
+                variants={fadeInUp}
                 className="text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 cursor-pointer hover:scale-105"
                 style={{
                   background:
@@ -155,13 +181,14 @@ const Learn = () => {
                 }}
               >
                 Subscribe
-              </button>
+              </motion.button>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
+
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

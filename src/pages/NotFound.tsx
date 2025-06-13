@@ -1,5 +1,16 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
+
+const containerVariant = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.2 } },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+};
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,15 +23,28 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! 😥 Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
+    <motion.div
+      className="min-h-screen flex items-center justify-center bg-gray-100"
+      variants={containerVariant}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div className="text-center" variants={fadeIn}>
+        <motion.h1 className="text-4xl font-bold mb-4" variants={fadeIn}>
+          404
+        </motion.h1>
+        <motion.p className="text-xl text-gray-600 mb-4" variants={fadeIn}>
+          Oops! 😥 Page not found
+        </motion.p>
+        <motion.a
+          href="/"
+          className="text-blue-500 hover:text-blue-700 underline"
+          variants={fadeIn}
+        >
           Return to Home
-        </a>
-      </div>
-    </div>
+        </motion.a>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -9,6 +9,7 @@ import CreditCardGrid from "@/components/CreditCardGrid";
 import AIChatSidebar from "@/components/AiChatSidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 
 const Compare = () => {
   const dispatch = useDispatch();
@@ -65,17 +66,39 @@ const Compare = () => {
     dispatch(setFilteredCards(filtered));
   }, [cards, filters, dispatch]);
 
+  const containerVariant = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.15 } },
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
-    <div className="min-h-screen  bg-[#167d9c1a]">
+    <motion.div
+      className="min-h-screen bg-[#167d9c1a]"
+      variants={containerVariant}
+      initial="hidden"
+      animate="visible"
+    >
       <Header />
-      <div className="flex flex-col lg:flex-row">
-        <div className="w-full md:w-80 bg-white/75 border-b border-gray-200 md:border-b-0 md:border-r shadow-2xl">
+
+      <motion.div className="flex flex-col lg:flex-row" variants={fadeIn}>
+        <motion.div
+          className="w-full md:w-80 bg-white/75 border-b border-gray-200 md:border-b-0 md:border-r shadow-2xl"
+          variants={fadeIn}
+        >
           <FilterSidebar />
-        </div>
+        </motion.div>
 
         {/* Main Content */}
-        <div className="flex-1 p-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <motion.div className="flex-1 p-6" variants={fadeIn}>
+          <motion.div
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
+            variants={fadeIn}
+          >
             <div>
               <h1 className="text-2xl font-bold text-banking-text">
                 Credit Card Comparison
@@ -86,7 +109,10 @@ const Compare = () => {
             </div>
 
             {selectedForComparison.length > 0 && (
-              <div className="flex items-center gap-3">
+              <motion.div
+                className="flex items-center gap-3"
+                variants={fadeIn}
+              >
                 <Badge
                   variant="secondary"
                   className="text-white w-10 h-10 rounded-full flex items-center justify-center"
@@ -107,23 +133,26 @@ const Compare = () => {
                 >
                   Compare Selected Cards
                 </Button>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
 
           <CreditCardGrid cards={filteredCards} />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="block lg:w-80 bg-white/75 border-l border-gray-200 shadow-2xl" >
+      <motion.div
+        className="block lg:w-80 bg-white/75 border-l border-gray-200 shadow-2xl"
+        variants={fadeIn}
+      >
         <AIChatSidebar />
-      </div>
+      </motion.div>
 
       <ComparisonModal
         isOpen={showComparison}
         onClose={() => setShowComparison(false)}
       />
-    </div>
+    </motion.div>
   );
 };
 

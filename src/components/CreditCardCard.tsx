@@ -10,10 +10,16 @@ import { type RootState } from "@/store/store";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import CardSummary from "./CardSummary";
+import { motion } from "framer-motion";
 
 interface CreditCardCardProps {
   card: CreditCard;
 }
+
+const fadeInUp = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+};
 
 const CreditCardCard = ({ card }: CreditCardCardProps) => {
   const dispatch = useDispatch();
@@ -44,7 +50,12 @@ const CreditCardCard = ({ card }: CreditCardCardProps) => {
   };
 
   return (
-    <div className="banking-card ">
+    <motion.div
+      className="banking-card"
+      variants={fadeInUp}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-lg font-semibold text-banking-text mb-1">
@@ -134,8 +145,9 @@ const CreditCardCard = ({ card }: CreditCardCardProps) => {
         </div>
         <CardSummary card={card} />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export default CreditCardCard;
+

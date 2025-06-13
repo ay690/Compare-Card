@@ -7,11 +7,22 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { X } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ComparisonModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const containerVariant = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } }
+};
+
+const fadeInUp = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+};
 
 const ComparisonModal = ({ isOpen, onClose }: ComparisonModalProps) => {
   const dispatch = useDispatch();
@@ -28,9 +39,7 @@ const ComparisonModal = ({ isOpen, onClose }: ComparisonModalProps) => {
     onClose();
   };
 
-  if (selectedCards.length === 0) {
-    return null;
-  }
+  if (selectedCards.length === 0) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -44,12 +53,12 @@ const ComparisonModal = ({ isOpen, onClose }: ComparisonModalProps) => {
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <motion.div variants={containerVariant} initial="hidden" animate="visible" className="space-y-6">
           {/* Cards Overview */}
-          <div className="overflow-x-auto">
+          <motion.div className="overflow-x-auto" variants={fadeInUp}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-max">
-              {selectedCards.map((card) => (
-                <div key={card.id} className="relative banking-card w-64 p-4">
+              {selectedCards.map(card => (
+                <motion.div key={card.id} className="relative banking-card w-64 p-4" variants={fadeInUp}>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -65,17 +74,18 @@ const ComparisonModal = ({ isOpen, onClose }: ComparisonModalProps) => {
                       {card.category}
                     </Badge>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="overflow-x-auto">
+          {/* Animated Table Container */}
+          <motion.div className="overflow-x-auto" variants={fadeInUp}>
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-32">Feature</TableHead>
-                  {selectedCards.map((card) => (
+                  {selectedCards.map(card => (
                     <TableHead key={card.id} className="text-center min-w-[120px]">
                       <div>
                         <div className="font-semibold truncate">{card.name}</div>
@@ -87,28 +97,26 @@ const ComparisonModal = ({ isOpen, onClose }: ComparisonModalProps) => {
               </TableHeader>
               <TableBody>
                 {[
-                  { label: 'Rating', render: (card: any) => (<span>⭐{" "}{card.rating}</span>) },
-                  { label: 'Annual Fee', render: (card: any) => (<span>₹ {" "} {card.annualFee.toLocaleString()}</span>) },
-                  { label: 'Joining Fee', render: (card: any) => (<span >₹ {" "} {card.joiningFee.toLocaleString()}</span>) },
-                  { label: 'Cashback Rate', render: (card: any) => (<span className="text-green-600 font-medium">+{card.cashbackRate}%</span>) },
-                  { label: 'Min Salary', render: (card: any) => (<span>₹ {" "}{(card.eligibility.minSalary / 100000).toFixed(1)}L</span>) },
+                  { label: 'Rating', render: (card: any) => <span>⭐ {card.rating}</span> },
+                  { label: 'Annual Fee', render: (card: any) => <span>₹ {card.annualFee.toLocaleString()}</span> },
+                  { label: 'Joining Fee', render: (card: any) => <span>₹ {card.joiningFee.toLocaleString()}</span> },
+                  { label: 'Cashback Rate', render: (card: any) => <span className="text-green-600 font-medium">+{card.cashbackRate}%</span> },
+                  { label: 'Min Salary', render: (card: any) => <span>₹ {(card.eligibility.minSalary / 100000).toFixed(1)}L</span> },
                   { label: 'Lounge Access', render: (card: any) => card.loungeAccess ? <span className="text-success">✓ Yes</span> : <span className="text-gray-400">✗ No</span> },
                   { label: 'Fuel Surcharge Waiver', render: (card: any) => card.fuelSurcharge ? <span className="text-success">✓ Yes</span> : <span className="text-gray-400">✗ No</span> },
-                  { label: 'Key Benefits', render: (card: any) => (<div className="space-y-1">{card.benefits.slice(0,2).map((b: any, i: number) => (<div key={i} className="text-xs text-gray-600 truncate">{b}</div>))}</div>) }
+                  { label: 'Key Benefits', render: (card: any) => <div className="space-y-1">{card.benefits.slice(0,2).map((b: any,i: number)=><div key={i} className="text-xs text-gray-600 truncate">{b}</div>)}</div> }
                 ].map(({ label, render }) => (
                   <TableRow key={label}>
                     <TableCell className="font-medium">{label}</TableCell>
                     {selectedCards.map(card => (
-                      <TableCell key={card.id} className="text-center whitespace-normal">
-                        {render(card)}
-                      </TableCell>
+                      <TableCell key={card.id} className="text-center whitespace-normal">{render(card)}</TableCell>
                     ))}
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </DialogContent>
     </Dialog>
   );
