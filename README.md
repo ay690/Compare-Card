@@ -2,6 +2,10 @@
 
 CardMitra is India's most intelligent credit card comparison platform that helps users find their perfect credit card using AI-powered recommendations and smart filtering.
 
+## 📹VIDEO LINK
+
+https://youtu.be/__xTcz-r4_c?si=TIuvx_MEy8Q1Pohq
+
 ## 🚀 Features
 
 ### Core Features
