@@ -9,6 +9,7 @@ import { Star, IndianRupee } from "lucide-react";
 import { type RootState } from "@/store/store";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
+import CardSummary from "./CardSummary";
 
 interface CreditCardCardProps {
   card: CreditCard;
@@ -123,6 +124,15 @@ const CreditCardCard = ({ card }: CreditCardCardProps) => {
 
       <div className="mt-4 pt-4 border-t border-gray-100">
         <p className="text-xs text-gray-500 line-clamp-2">{card.description}</p>
+      </div>
+
+      <div className="pt-4 border-t border-gray-100">
+        <div className="mb-2">
+          <h5 className="text-xs font-medium text-banking-text mb-1">
+            AI Summary
+          </h5>
+        </div>
+        <CardSummary card={card} />
       </div>
     </div>
   );

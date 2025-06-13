@@ -6,18 +6,23 @@ import {
   setIsTyping,
   type ChatMessage,
 } from "@/store/slices/chatSlice";
+import { aiService } from "@/utils/aiService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { MessageCircle, Send, X, Settings } from "lucide-react";
 
 const AIChatSidebar = () => {
   const dispatch = useDispatch();
   const { messages, isTyping } = useSelector((state: RootState) => state.chat);
+  const { cards } = useSelector((state: RootState) => state.creditCards);
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [showApiSettings, setShowApiSettings] = useState(false);
+  const [apiKey, setApiKey] = useState("");
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!input.trim()) return;
 
     const userMessage: ChatMessage = {
@@ -28,20 +33,43 @@ const AIChatSidebar = () => {
     };
 
     dispatch(addMessage(userMessage));
+    const userQuery = input;
     setInput("");
 
-    // Simulating AI response
+    // Set typing indicator
     dispatch(setIsTyping(true));
-    setTimeout(() => {
-      const aiResponse: ChatMessage = {
+
+    try {
+      // Set API key if provided
+      if (apiKey) {
+        aiService.setApiKey(apiKey);
+      }
+
+      // Generate AI response
+      const aiResponse = await aiService.generateChatResponse(userQuery, cards);
+
+      const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: "assistant",
-        content: `I understand you're looking for "${input}". Let me help you find the best credit cards that match your needs!`,
+        content: aiResponse.content,
+        timestamp: new Date(),
+        cardRecommendations: aiResponse.cardRecommendations,
+      };
+
+      dispatch(addMessage(assistantMessage));
+    } catch (error) {
+      console.error("Chat error:", error);
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: "assistant",
+        content:
+          "Sorry, I encountered an error. Please try again or check your API key if you provided one.",
         timestamp: new Date(),
       };
-      dispatch(addMessage(aiResponse));
+      dispatch(addMessage(errorMessage));
+    } finally {
       dispatch(setIsTyping(false));
-    }, 1500);
+    }
   };
 
   if (!isOpen) {
@@ -64,15 +92,41 @@ const AIChatSidebar = () => {
     <div className="fixed right-0 bottom-0 h-3/4 w-80 bg-white border-l border-gray-200 shadow-lg z-40 flex flex-col">
       <div className="p-4 border-b border-gray-200 flex justify-between items-center">
         <h3 className="font-semibold text-banking-text">AI Assistant</h3>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => setIsOpen(false)}
-          className="cursor-pointer transition-colors hover:scale-105 duration-300"
-        >
-          <X className="h-4 w-4 hover:scale-105" />
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowApiSettings(!showApiSettings)}
+          >
+            <Settings className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsOpen(false)}
+          >
+            <X className="h-4 w-4 cursor-pointer" />
+          </Button>
+        </div>
       </div>
+
+      {showApiSettings && (
+        <div className="p-4 border-b border-gray-200 bg-gray-50">
+          <label className="block text-sm font-medium mb-2">
+            Groq API Key (Optional)
+          </label>
+          <Input
+            type="password"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter your Groq API key for enhanced AI responses"
+            className="text-sm"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Without API key, basic responses will be provided
+          </p>
+        </div>
+      )}
 
       <ScrollArea className="flex-1 p-4 min-h-0">
         <div className="space-y-4">
@@ -91,13 +145,27 @@ const AIChatSidebar = () => {
                 }`}
               >
                 <p className="text-sm">{message.content}</p>
+                {message.cardRecommendations &&
+                  message.cardRecommendations.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {message.cardRecommendations.map((cardName, index) => (
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {cardName}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
               </div>
             </div>
           ))}
           {isTyping && (
             <div className="flex justify-start">
               <div className="bg-gray-100 text-banking-text p-3 rounded-lg">
-                <p className="text-sm">Typing...</p>
+                <p className="text-sm">AI is thinking...</p>
               </div>
             </div>
           )}
@@ -116,6 +184,7 @@ const AIChatSidebar = () => {
           <Button
             onClick={handleSendMessage}
             size="sm"
+            disabled={isTyping}
             style={{
               background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
             }}
