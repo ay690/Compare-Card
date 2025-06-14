@@ -20,7 +20,7 @@ const Header = () => {
     <header className="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-         
+
           <motion.div
             className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
@@ -40,7 +40,7 @@ const Header = () => {
               CardMitra
             </span>
           </motion.div>
-          
+
           <motion.div
             className="flex items-center space-x-8"
             variants={rightVariant}
@@ -48,30 +48,30 @@ const Header = () => {
             animate="visible"
           >
             <nav className="hidden md:flex items-center space-x-8">
-              <a
-                href="/"
-                className="text-banking-text hover:text-[#10171f] transition-colors"
+              <span
+                onClick={() => navigate("/")}
+                className="cursor-pointer text-banking-text hover:text-[#10171f] transition-colors"
               >
                 Home
-              </a>
-              <a
-                href="/compare"
-                className="text-banking-text hover:text-[#10171f] transition-colors"
+              </span>
+              <span
+                onClick={() => navigate("/compare")}
+                className="cursor-pointer text-banking-text hover:text-[#10171f] transition-colors"
               >
                 Compare Cards
-              </a>
-              <a
-                href="/reviews"
-                className="text-banking-text hover:text-[#10171f] transition-colors"
+              </span>
+              <span
+                onClick={() => navigate("/reviews")}
+                className="cursor-pointer text-banking-text hover:text-[#10171f] transition-colors"
               >
                 Reviews
-              </a>
-              <a
-                href="/learn"
-                className="text-banking-text hover:text-[#10171f] transition-colors"
+              </span>
+              <span
+                onClick={() => navigate("/learn")}
+                className="cursor-pointer text-banking-text hover:text-[#10171f] transition-colors"
               >
                 Learn
-              </a>
+              </span>
             </nav>
 
             <div className="flex items-center space-x-4">
@@ -103,3 +103,4 @@ const Header = () => {
 };
 
 export default Header;
+
