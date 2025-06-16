@@ -38,7 +38,6 @@ https://youtu.be/__xTcz-r4_c?si=TIuvx_MEy8Q1Pohq
 - **State Management**: Redux Toolkit
 - **Routing**: React Router DOM
 - **Icons**: Lucide React
-- **Charts**: Recharts
 
 ## 🏗️ Project Structure
 
