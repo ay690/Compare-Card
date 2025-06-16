@@ -36,7 +36,6 @@ https://youtu.be/__xTcz-r4_c?si=TIuvx_MEy8Q1Pohq
 - **Styling**: Tailwind CSS
 - **UI Components**: Shadcn/UI
 - **State Management**: Redux Toolkit
-- **Data Fetching**: TanStack React Query
 - **Routing**: React Router DOM
 - **Icons**: Lucide React
 - **Charts**: Recharts
