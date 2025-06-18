@@ -5,7 +5,7 @@ import {
 } from "@/store/slices/creditCardSlice";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, IndianRupee } from "lucide-react";
+import { Star, IndianRupee, ExternalLink } from "lucide-react";
 import { type RootState } from "@/store/store";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
@@ -48,6 +48,29 @@ const CreditCardCard = ({ card }: CreditCardCardProps) => {
       });
     }
   };
+
+  const handleApplyNow = () => {
+
+    console.log(`User applying for ${card.name} from ${card.bank}`);
+
+    toast("Application Started", {
+        description: `Redirecting to ${card.bank} for ${card.name} application...`,
+      });
+
+      const bankWebsites = {
+        'HDFC Bank': 'https://www.hdfcbank.com/personal/pay/cards/credit-cards',
+        'State Bank of India': 'https://www.onlinesbi.sbi/sbicollect/icollecthome.htm',
+        'ICICI Bank': 'https://www.icicibank.com/personal-banking/cards/credit-card',
+        'Axis Bank': 'https://www.axisbank.com/retail/cards/credit-card',
+        'American Express': 'https://www.americanexpress.com/in/'
+      }
+
+      const bankUrl = bankWebsites[card.bank as keyof typeof bankWebsites];
+
+      setTimeout(() => {
+        window.open(bankUrl, '_blank', 'noopener, noreferrer');
+      }, 2000);
+  }
 
   return (
     <motion.div
@@ -128,8 +151,10 @@ const CreditCardCard = ({ card }: CreditCardCardProps) => {
           style={{
             background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
           }}
+          onClick={handleApplyNow}
         >
           Apply Now
+          <ExternalLink className="h-3 w-3"/>
         </Button>
       </div>
 

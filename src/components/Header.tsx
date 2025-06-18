@@ -46,7 +46,8 @@ const Header = () => {
               <CreditCard
                 className="h-10 w-10 text-white rounded-sm p-1"
                 style={{
-                  background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
+                  background:
+                    "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
                 }}
               />
             </div>
@@ -76,7 +77,8 @@ const Header = () => {
                 variant="outline"
                 className="hidden sm:inline-flex text-white px-6 py-3 cursor-pointer rounded-lg font-medium transition-transform duration-200 hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg, #F39C12 0%, #F1C40F 100%)",
+                  background:
+                    "linear-gradient(135deg, #F39C12 0%, #F1C40F 100%)",
                 }}
               >
                 Sign In
@@ -84,7 +86,8 @@ const Header = () => {
               <Button
                 className="text-white px-6 py-3 rounded-lg cursor-pointer font-medium transition-transform duration-200 hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
+                  background:
+                    "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
                 }}
               >
                 Get Started
@@ -93,11 +96,23 @@ const Header = () => {
           </motion.div>
 
           {/* Mobile Menu Icon */}
-          <div className="md:hidden">
-            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2">
-              {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <motion.div
+            className="md:hidden"
+            initial="hidden"
+            animate="visible"
+            variants={rightVariant}
+          >
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-2 cursor-pointer"
+            >
+              {menuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Mobile Dropdown Menu */}
@@ -128,7 +143,8 @@ const Header = () => {
                   variant="outline"
                   className="text-white font-medium cursor-pointer"
                   style={{
-                    background: "linear-gradient(135deg, #F39C12 0%, #F1C40F 100%)",
+                    background:
+                      "linear-gradient(135deg, #F39C12 0%, #F1C40F 100%)",
                   }}
                 >
                   Sign In
@@ -136,7 +152,8 @@ const Header = () => {
                 <Button
                   className="text-white font-medium cursor-pointer"
                   style={{
-                    background: "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
+                    background:
+                      "linear-gradient(135deg, #1B4F72 0%, #2E86AB 100%)",
                   }}
                 >
                   Get Started
@@ -151,6 +168,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
